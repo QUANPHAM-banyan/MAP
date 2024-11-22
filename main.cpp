@@ -93,6 +93,7 @@ public:
         }
     }
 };
+// Định nghĩa cấu trúc PairMM cho Multymap
 struct PairMM {
     int key;
     int* values[MAX];
@@ -103,7 +104,7 @@ struct PairMM {
             values[i] = nullptr;
         }
     }
-
+// Gắn thêm 1 giá trị mới vào key
     void addValue(int v) {
         if (value_count < MAX) {
             values[value_count] = new int(v);
@@ -113,19 +114,20 @@ struct PairMM {
         }
     }
 };
-
+//Khai báo lớp Multymap kế thừa lớp
 class Multymap : public Map {
 protected:
     PairMM* units[MAX];
     int current = 0;
 
 public:
+    //Hàm khởi tạo
     Multymap() {
         for (int i = 0; i < MAX; i++) {
             units[i] = nullptr;
         }
     }
-
+//Thêm mới key hoặc thêm mới giá trị cho key
     void insert(int k, int v) override {
         for (int i = 0; i < current; i++) {
             if (units[i] != nullptr && units[i]->key == k) {
@@ -141,7 +143,7 @@ public:
             cout << "FULL" << endl;
         }
     }
-
+//Hàm in ra các gìá trị value của key tương ứng
     void getValues(int k) {
         for (int i = 0; i < current; i++) {
             if (units[i] != nullptr && units[i]->key == k) {
@@ -157,7 +159,7 @@ public:
         }
         cout << "NOTFOUND" << endl;
     }
-
+    // Hàm hủy để giải phóng bộ nhớ
     ~Multymap() {
         for (int i = 0; i < current; i++) {
             if (units[i] != nullptr) {
