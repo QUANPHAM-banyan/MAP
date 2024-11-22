@@ -44,7 +44,7 @@ public:
 
     // Hàm truy cập giá trị theo khóa
     int get(int k, int index = 0) {
-        if (index >= current) { // Sửa MAX thành current để tránh duyệt không cần thiết
+        if (index >= current) {
             cout << "NOTFOUND" << endl;
             return -1;
         }
