@@ -24,7 +24,7 @@ public:
     }
 
     // Hàm thêm hoặc cập nhật giá trị
-    void insert(int k, int v) {
+    virtual void insert(int k, int v) {
         // Tìm khóa và cập nhật nếu đã tồn tại
         for (int i = 0; i < current; i++) {
             if (units[i] != nullptr && units[i]->key == k) {
@@ -93,14 +93,79 @@ public:
         }
     }
 };
+struct PairMM {
+    int key;
+    int* values[MAX];
+    int value_count;
 
-int main() {
-    Map map;
-    map.insert(1, 100);
-    map.insert(2, 200);
-    cout << map.get(1) << endl; // In ra 100
-    map.remove(1);
-    map.checkYN(1);             // In ra "no"
-    map.checkYN(2);             // In ra "yes"
-    return 0;
-}
+    PairMM(int k) : key(k), value_count(0) {
+        for (int i = 0; i < MAX; i++) {
+            values[i] = nullptr;
+        }
+    }
+
+    void addValue(int v) {
+        if (value_count < MAX) {
+            values[value_count] = new int(v);
+            value_count++;
+        } else {
+            cout << "FULL" << endl;
+        }
+    }
+};
+
+class Multymap : public Map {
+protected:
+    PairMM* units[MAX];
+    int current = 0;
+
+public:
+    Multymap() {
+        for (int i = 0; i < MAX; i++) {
+            units[i] = nullptr;
+        }
+    }
+
+    void insert(int k, int v) override {
+        for (int i = 0; i < current; i++) {
+            if (units[i] != nullptr && units[i]->key == k) {
+                units[i]->addValue(v);
+                return;
+            }
+        }
+        if (current < MAX) {
+            units[current] = new PairMM(k);
+            units[current]->addValue(v);
+            current++;
+        } else {
+            cout << "FULL" << endl;
+        }
+    }
+
+    void getValues(int k) {
+        for (int i = 0; i < current; i++) {
+            if (units[i] != nullptr && units[i]->key == k) {
+                cout << "Values for key " << k << ": ";
+                for (int j = 0; j < units[i]->value_count; j++) {
+                    if (units[i]->values[j] != nullptr) {
+                        cout << *(units[i]->values[j]) << " ";
+                    }
+                }
+                cout << endl;
+                return;
+            }
+        }
+        cout << "NOTFOUND" << endl;
+    }
+
+    ~Multymap() {
+        for (int i = 0; i < current; i++) {
+            if (units[i] != nullptr) {
+                for (int j = 0; j < units[i]->value_count; j++) {
+                    delete units[i]->values[j];
+                }
+                delete units[i];
+            }
+        }
+    }
+};
