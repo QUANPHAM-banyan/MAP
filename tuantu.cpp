@@ -112,10 +112,6 @@ public:
         return false;
     }
 
-    // In "yes" nếu khóa tồn tại, ngược lại in "no"
-    void checkYN(int k) {
-        cout << (check(k) ? "yes" : "no") << endl;
-    }
 
     // Hàm hủy để giải phóng bộ nhớ
     ~Map() {
@@ -125,7 +121,7 @@ public:
     }
 };
 
-// Định nghĩa cấu trúc PairMM cho Multymap
+// Định nghĩa cấu trúc PairMM cho Multimap
 struct PairMM {
     int key;
     int* values[MAX];
@@ -148,15 +144,15 @@ struct PairMM {
     }
 };
 
-// Khai báo lớp Multymap kế thừa lớp Map
-class Multymap : public Map {
+// Khai báo lớp Multimap kế thừa lớp Map
+class Multimap : public Map {
 protected:
     PairMM* units[MAX];
     int current = 0;
 
 public:
     // Hàm khởi tạo
-    Multymap() {
+    Multimap() {
         for (int i = 0; i < MAX; i++) {
             units[i] = nullptr;
         }
@@ -209,7 +205,7 @@ public:
     }
 
     // Hàm hủy để giải phóng bộ nhớ
-    ~Multymap() {
+    ~Multimap() {
         for (int i = 0; i < current; i++) {
             if (units[i] != nullptr) {
                 for (int j = 0; j < units[i]->value_count; j++) {
