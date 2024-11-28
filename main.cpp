@@ -25,7 +25,7 @@ public:
     }
 
     // Hàm sắp xếp nổi bọt (bubble sort) để sắp xếp mảng theo khóa
-    void bubbleSort() {
+    virtual void bubbleSort() {
         for (int i = 0; i < current - 1; ++i) {
             for (int j = 0; j < current - 1 - i; ++j) {
                 // So sánh các khóa của hai phần tử và hoán đổi nếu cần
@@ -96,7 +96,7 @@ public:
             clear(index + 1);
         }
     }
-    
+
     // Hàm trả về số lượng phần tử hiện tại
     int size(){
         return current;
@@ -159,6 +159,18 @@ public:
     Multymap() {
         for (int i = 0; i < MAX; i++) {
             units[i] = nullptr;
+        }
+    }
+    void bubbleSort() override{
+        for (int i = 0; i < current - 1; ++i) {
+            for (int j = 0; j < current - 1 - i; ++j) {
+                // So sánh các khóa của hai phần tử và hoán đổi nếu cần
+                if (units[j]->key > units[j + 1]->key) {
+                    PairMM* temp = units[j];
+                    units[j] = units[j + 1];
+                    units[j + 1] = temp;
+                }
+            }
         }
     }
 
