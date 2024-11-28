@@ -1,3 +1,6 @@
+#include <iostream>
+using namespace std;
+
 int main() {
     Map map;
 
@@ -8,61 +11,61 @@ int main() {
     map.insert(5, 500);
     map.insert(4, 400);
 
-    // In ra các giá trị sau khi thêm
+    // In ra kích thước sau khi thêm
     cout << "Size of map: " << map.size() << endl;  // Kỳ vọng 5
     cout << "Value for key 3: " << map.get(3) << endl;  // Kỳ vọng 300
     cout << "Value for key 2: " << map.get(2) << endl;  // Kỳ vọng 200
-    cout << "Value for key 1: " << map.get(1) << endl;  // Kỳ vọng 100
-    cout << "Value for key 4: " << map.get(4) << endl;  // Kỳ vọng 400
+    cout << "Value for key 5: " << map.get(5) << endl;  // Kỳ vọng 500
 
     // Kiểm tra sự tồn tại của một khóa
-    map.checkYN(3);  // Kỳ vọng "yes"
-    map.checkYN(10); // Kỳ vọng "no"
+    map.check(3);  // Kỳ vọng "yes"
+    map.check(10); // Kỳ vọng "no"
 
     // Xóa phần tử theo khóa
     map.remove(3);   // Xóa khóa 3
     map.remove(10);  // Không có khóa 10 để xóa
 
-    // Kiểm tra lại các giá trị sau khi xóa
+    // Kiểm tra lại giá trị sau khi xóa
     cout << "Value for key 3 after removal: " << map.get(3) << endl; // Kỳ vọng "NOTFOUND"
 
     // Xóa tất cả phần tử
     map.clear();
     cout << "Size of map after clearing: " << map.size() << endl;  // Kỳ vọng 0
 
-    Multymap multymap;
+    Multimap multimap;
 
     // Thêm các cặp <key, value>
-    multymap.insert(1, 100);
-    multymap.insert(3, 300);
-    multymap.insert(2, 200);
-    multymap.insert(3, 301);
-    multymap.insert(2, 201);
+    multimap.insert(1, 100);
+    multimap.insert(3, 300);
+    multimap.insert(2, 200);
+    multimap.insert(3, 301);
+    multimap.insert(2, 201);
 
-    // In ra các giá trị sau khi thêm
-    cout << "Size of multymap: " << multymap.size() << endl;  // Kỳ vọng 3
-    multymap.getValues(1);  // Kỳ vọng: 100
-    multymap.getValues(3);  // Kỳ vọng: 300 301
-    multymap.getValues(2);  // Kỳ vọng: 200 201
+    // In ra kích thước sau khi thêm
+    cout << "Size of multimap: " << multimap.size() << endl;  // Kỳ vọng 5
+    multimap.get(1);  // Kỳ vọng: 100
+    multimap.get(3);  // Kỳ vọng: 300 301
+    multimap.get(2);  // Kỳ vọng: 200 201
 
     // Kiểm tra sự tồn tại của một khóa
-    multymap.checkYN(3);  // Kỳ vọng "yes"
-    multymap.checkYN(4);  // Kỳ vọng "no"
+    multimap.check(3);  // Kỳ vọng "yes"
+    multimap.check(4);  // Kỳ vọng "no"
 
     // Xóa phần tử theo khóa
-    multymap.remove(3);   // Xóa khóa 3
-    multymap.remove(4);   // Không có khóa 4 để xóa
+    multimap.remove(3);   // Xóa tất cả phần tử có khóa 3
+    multimap.remove(4);   // Không có khóa 4 để xóa
 
-    // Kiểm tra lại các giá trị sau khi xóa
+    // Kiểm tra lại giá trị sau khi xóa
     cout << "Values for key 3 after removal: ";
-    multymap.getValues(3);  // Kỳ vọng "NOTFOUND"
+    multimap.get(3);  // Kỳ vọng "NOTFOUND"
 
     // Thêm giá trị mới cho khóa đã tồn tại
-    multymap.insert(2, 202);
-    multymap.getValues(2);  // Kỳ vọng: 200 201 202
+    multimap.insert(2, 202);
+    multimap.get(2);  // Kỳ vọng: 200 201 202
+
     // Xóa tất cả phần tử
-    multymap.clear();
-    cout << "Size of multymap after clearing: " << multymap.size() << endl;  // Kỳ vọng 0
+    multimap.clear();
+    cout << "Size of multimap after clearing: " << multimap.size() << endl;  // Kỳ vọng 0
 
     return 0;
-    }
+}
