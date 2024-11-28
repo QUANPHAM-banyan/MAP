@@ -145,7 +145,7 @@ public:
     }
 };
 
-// Định nghĩa cấu trúc PairMM cho Multymap
+// Định nghĩa cấu trúc PairMM cho Multimap
 struct PairMM {
     int key;
     Pair* values; // Danh sách liên kết các giá trị
@@ -161,13 +161,13 @@ struct PairMM {
     }
 };
 
-class Multymap : public Map {
+class Multimap : public Map {
 protected:
     PairMM* headMM; // Đầu danh sách các PairMM
 
 public:
     // Hàm khởi tạo
-    Multymap() : headMM(nullptr) {}
+    Multimap() : headMM(nullptr) {}
 
     // Hàm swap tùy chỉnh để hoán đổi giá trị giữa hai đối tượng PairMM
     void swap(PairMM* a, PairMM* b) {
@@ -179,7 +179,7 @@ public:
         b->values = tempValues;
     }
 
-    // Hàm sắp xếp nổi bọt cho Multymap
+    // Hàm sắp xếp nổi bọt cho Multimap
     void bubbleSort() override {
         if (headMM == nullptr || headMM->next == nullptr) return;
 
@@ -230,7 +230,7 @@ public:
     }
 
     // Hàm hủy để giải phóng bộ nhớ
-    ~Multymap() {
+    ~Multimap() {
         while (headMM != nullptr) {
             PairMM* temp = headMM;
             headMM = headMM->next;
@@ -243,3 +243,6 @@ public:
         }
     }
 };
+
+
+
