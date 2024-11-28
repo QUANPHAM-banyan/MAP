@@ -11,34 +11,50 @@ struct Pair {
     Pair(int k, int v) : key(k), value(v) {}
 };
 
-class Map { // class Map chứa mảng các Pair
+class Map {
+    // Lớp Map chứa một mảng các đối tượng Pair
 protected:
-    Pair* units[MAX];   // Danh sách các phần tử <key, value>
+    Pair* units[MAX];   // Danh sách các cặp <key, value>
     int current = 0;
 public:
-    // Hàm khởi tạo
+    // Constructor để khởi tạo mảng
     Map() {
         for (int i = 0; i < MAX; i++) {
             units[i] = nullptr;
         }
     }
 
-    // Hàm thêm hoặc cập nhật giá trị
+    // Hàm sắp xếp nổi bọt (bubble sort) để sắp xếp mảng theo khóa
+    void bubbleSort() {
+        for (int i = 0; i < current - 1; ++i) {
+            for (int j = 0; j < current - 1 - i; ++j) {
+                // So sánh các khóa của hai phần tử và hoán đổi nếu cần
+                if (units[j]->key > units[j + 1]->key) {
+                    Pair* temp = units[j];
+                    units[j] = units[j + 1];
+                    units[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    // Chèn hoặc cập nhật một cặp key-value
     virtual void insert(int k, int v) {
-        // Tìm khóa và cập nhật nếu đã tồn tại
+        // Tìm khóa và cập nhật giá trị nếu khóa đã tồn tại
         for (int i = 0; i < current; i++) {
             if (units[i] != nullptr && units[i]->key == k) {
                 units[i]->value = v;
-                return; // Dừng hàm ngay sau khi cập nhật
+                return; // Thoát khỏi hàm sau khi cập nhật giá trị
             }
         }
 
-        // Nếu khóa chưa tồn tại, thêm mới
+        // Nếu khóa không tồn tại, thêm một cặp mới
         if (current < MAX) {
             units[current] = new Pair(k, v);
             current++;
+            bubbleSort(); // Sắp xếp lại mảng sau khi thêm
         } else {
-            cout << "FULL" << endl;
+            cout << "FULL" << endl; // Nếu mảng đầy, in ra "FULL"
         }
     }
 
@@ -71,6 +87,21 @@ public:
         cout << "NOTFOUND" << endl;
     }
 
+    // Hàm xóa tất cả các phần tử
+    void clear(int index = 0){
+        if(current > 0){
+            delete units[index];
+            units[index] = nullptr;
+            current--;
+            clear(index + 1);
+        }
+    }
+    
+    // Hàm trả về số lượng phần tử hiện tại
+    int size(){
+        return current;
+    }
+
     // Kiểm tra xem khóa có tồn tại không
     bool check(int k) {
         for (int i = 0; i < current; i++) {
@@ -93,6 +124,7 @@ public:
         }
     }
 };
+
 // Định nghĩa cấu trúc PairMM cho Multymap
 struct PairMM {
     int key;
@@ -104,7 +136,8 @@ struct PairMM {
             values[i] = nullptr;
         }
     }
-// Gắn thêm 1 giá trị mới vào key
+
+    // Gắn thêm 1 giá trị mới vào key
     void addValue(int v) {
         if (value_count < MAX) {
             values[value_count] = new int(v);
@@ -114,20 +147,22 @@ struct PairMM {
         }
     }
 };
-//Khai báo lớp Multymap kế thừa lớp
+
+// Khai báo lớp Multymap kế thừa lớp Map
 class Multymap : public Map {
 protected:
     PairMM* units[MAX];
     int current = 0;
 
 public:
-    //Hàm khởi tạo
+    // Hàm khởi tạo
     Multymap() {
         for (int i = 0; i < MAX; i++) {
             units[i] = nullptr;
         }
     }
-//Thêm mới key hoặc thêm mới giá trị cho key
+
+    // Thêm mới key hoặc thêm mới giá trị cho key
     void insert(int k, int v) override {
         for (int i = 0; i < current; i++) {
             if (units[i] != nullptr && units[i]->key == k) {
@@ -143,7 +178,8 @@ public:
             cout << "FULL" << endl;
         }
     }
-//Hàm in ra các gìá trị value của key tương ứng
+
+    // Hàm in ra các giá trị value của key tương ứng
     void getValues(int k) {
         for (int i = 0; i < current; i++) {
             if (units[i] != nullptr && units[i]->key == k) {
@@ -159,6 +195,7 @@ public:
         }
         cout << "NOTFOUND" << endl;
     }
+
     // Hàm hủy để giải phóng bộ nhớ
     ~Multymap() {
         for (int i = 0; i < current; i++) {
@@ -171,3 +208,14 @@ public:
         }
     }
 };
+
+int main() {
+    Map map;
+    map.insert(1, 100);
+    map.insert(2, 200);
+    cout << map.get(1) << endl; // In ra 100
+    map.remove(1);
+    map.checkYN(1);             // In ra "no"
+    map.checkYN(2);             // In ra "yes"
+    return 0;
+}
